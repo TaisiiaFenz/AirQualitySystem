@@ -1,0 +1,80 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(message: String)
+
+@*
+ * Call the `main` template with two arguments. The first
+ * argument is a `String` with the title of the page, the second
+ * argument is an `Html` object containing the body of the page.
+ *@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+<script language="javascript" type="text/javascript">
+
+        var wsUri = "ws://" +window.location.hostname+ ":9000/socket";
+        var output;
+
+        function init()
+        {
+            output = document.getElementById("output");
+            testWebSocket();
+        }
+
+        function testWebSocket()
+        {
+            websocket = new WebSocket(wsUri);
+            websocket.onopen = function(evt) { onOpen(evt) };
+
+            websocket.onmessage = function(evt) { onMessage(evt) };
+            websocket.onclose = function(evt) { onClose(evt) };
+            websocket.onerror = function(evt) { onError(evt) };
+        }
+
+        function onOpen(evt)
+        {
+            writeToScreen("CONNECTED");
+
+            doSend("WebSocket rocks");
+            onMessage();
+        }
+
+        function onClose(evt)
+        {
+            writeToScreen("DISCONNECTED");
+        }
+
+        function onMessage(evt)
+        {
+            writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+            websocket.close();
+        }
+
+        function onError(evt)
+        {
+            writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+        }
+
+        function doSend(message)
+        {
+            writeToScreen("SENT: " + message);
+            websocket.send(message);
+        }
+
+        function writeToScreen(message)
+        {
+            var pre = document.createElement("p");
+            pre.style.wordWrap = "break-word";
+            pre.innerHTML = message;
+            output.appendChild(pre);
+        }
+
+        window.addEventListener("load", init, false);
+
+</script>
+
+<h2>WebSocket Test</h2>
+
+<div id="output"></div>
