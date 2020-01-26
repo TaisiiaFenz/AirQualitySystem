@@ -14,7 +14,7 @@
 <title>WebSocket Test</title>
 <script language="javascript" type="text/javascript">
 
-        var wsUri = "ws://" +window.location.hostname+ ":9000/socket";
+        var wsUri = "ws://" +window.location.hostname+ ":9000/client";
         var output;
 
         function init()
@@ -49,7 +49,7 @@
         function onMessage(evt)
         {
             writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
-            websocket.close();
+
         }
 
         function onError(evt)
@@ -65,10 +65,9 @@
 
         function writeToScreen(message)
         {
-            var pre = document.createElement("p");
-            pre.style.wordWrap = "break-word";
-            pre.innerHTML = message;
-            output.appendChild(pre);
+           // var pre = document.update();
+            document.getElementById("output").innerHTML = message;
+            //output.appendChild(pre);
         }
 
         window.addEventListener("load", init, false);
