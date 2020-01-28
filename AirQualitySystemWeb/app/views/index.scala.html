@@ -20,6 +20,16 @@
 
         function init()
         {
+            var time = new Date();
+
+            var data = [{
+                x: [time],
+                y: [0],
+                mode: 'lines',
+                line: {color: '#80CAF6'}
+            }]
+
+            Plotly.newPlot('graph', data);
             output = document.getElementById("output");
             testWebSocket();
         }
@@ -38,6 +48,7 @@
         {
             writeToScreen("CONNECTED");
 
+
            // doSend("WebSocket rocks");
             onMessage();
         }
@@ -49,36 +60,19 @@
 
         function onMessage(evt)
         {
-            airPlotVariable = document.getElementById('airPlot')
-            var my_plot = {
-                x: [new Date()],
-                y: [evt.data],
-                type: 'scatter',
-                line: {color: '#17BECF'}
-            };
-            var layout = {
-                title: 'Custom Range',
+            //TODO: make function that updates the plot
 
-            };
+            function rand() {
+                return Math.random();
+            }
 
+            var time = new Date();
+            var update = {
+                x:  [[time]],
+                y: [[evt.data]]
+            }
+            Plotly.extendTraces('graph', update, [0])
 
-
-            Plotly.newPlot(airPlotVariable, [my_plot], layout);
-            var cnt = 0;
-
-            var interval = setInterval(function() {
-
-                var time = new Date();
-
-                var update = {
-                    x:  [[time]],
-                    y: [[evt.data]]
-                }
-
-                Plotly.extendTraces('airPlot', update, [0]);
-
-               // if(++cnt === 100) clearInterval(interval);
-            }, 1000);
             writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
 
         }
@@ -107,4 +101,4 @@
 <div id="output"></div>
 <br>
 <br>
-<div id="airPlot"></div>
+<div id="graph"></div>
