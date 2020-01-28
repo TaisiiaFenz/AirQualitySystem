@@ -12,6 +12,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
 <title>WebSocket Test</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script language="javascript" type="text/javascript">
 
         var wsUri = "ws://" +window.location.hostname+ ":9000/client";
@@ -37,7 +38,7 @@
         {
             writeToScreen("CONNECTED");
 
-            doSend("WebSocket rocks");
+           // doSend("WebSocket rocks");
             onMessage();
         }
 
@@ -48,6 +49,36 @@
 
         function onMessage(evt)
         {
+            airPlotVariable = document.getElementById('airPlot')
+            var my_plot = {
+                x: [new Date()],
+                y: [evt.data],
+                type: 'scatter',
+                line: {color: '#17BECF'}
+            };
+            var layout = {
+                title: 'Custom Range',
+
+            };
+
+
+
+            Plotly.newPlot(airPlotVariable, [my_plot], layout);
+            var cnt = 0;
+
+            var interval = setInterval(function() {
+
+                var time = new Date();
+
+                var update = {
+                    x:  [[time]],
+                    y: [[evt.data]]
+                }
+
+                Plotly.extendTraces('airPlot', update, [0]);
+
+               // if(++cnt === 100) clearInterval(interval);
+            }, 1000);
             writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
 
         }
@@ -57,16 +88,13 @@
             writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
         }
 
-        function doSend(message)
-        {
-            writeToScreen("SENT: " + message);
-            websocket.send(message);
-        }
+
 
         function writeToScreen(message)
         {
            // var pre = document.update();
             document.getElementById("output").innerHTML = message;
+
             //output.appendChild(pre);
         }
 
@@ -77,3 +105,6 @@
 <h2>WebSocket Test</h2>
 
 <div id="output"></div>
+<br>
+<br>
+<div id="airPlot"></div>
