@@ -10,6 +10,7 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import akka.stream.scaladsl._
 import play.api.libs.concurrent.CustomExecutionContext
+import akka.actor.TypedActor.PostStop
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -21,18 +22,13 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit system: ActorS
   def index = Action {
     Ok(views.html.index(""))
   }
-
-
-
   def socket = WebSocket.accept[String, String] { request =>
     ActorFlow.actorRef { out =>
+
       MyWebSocketActor.props(out)
 
     }
   }
-
-
-
 }
 import akka.actor._
 object Senders{
@@ -53,11 +49,15 @@ object MyWebSocketActor {
 class MyWebSocketActor (out: ActorRef) extends Actor {
 
   def receive = {
-    case msg:  String => {
-      Senders.senders+=out
-
+    case _:  String => {
+        Senders.senders+=out
     }
 
   }
+
+  override def postStop(){
+      Senders.senders -= out
+  }
+
 }
 
