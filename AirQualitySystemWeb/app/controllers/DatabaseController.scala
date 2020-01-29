@@ -18,16 +18,11 @@ class DatabaseController @Inject()(cc: ControllerComponents, db: Database, execu
       val actor = system.actorOf(Props[SenderActor])
       ArduinoDataActor.props(out, executionContext, db, actor)
     }
-
-
-
     }
   }
 
 }
 import akka.actor._
-
-
 
 object ArduinoDataActor {
   def props(out: ActorRef, executionContext: DatabaseExecutionContext, db: Database, actor: ActorRef) = Props(new ArduinoDataActor(out,executionContext,db, actor))
@@ -39,38 +34,34 @@ class ArduinoDataActor(out: ActorRef, executionContext: DatabaseExecutionContext
     case msg:  String => {
       if(isAllDigits(msg)){
         actor ! msg
-        updateSomething(msg.toInt)
+        updateDatabase(msg.toInt)
       }
 
     }
   }
 
   def isAllDigits(x: String) = x forall Character.isDigit
-  def updateSomething(msg: Int): Unit = {
+  def updateDatabase(msg: Int): Unit = {
     Future {
       val connection = db.getConnection()
       val sql: String = "INSERT INTO sensorTable (value)" + "VALUES(?)"
       val preparedStatement = connection.prepareStatement(sql)
       preparedStatement.setInt(1,msg)
       preparedStatement.executeUpdate()
+      //TODO: delete in some time
       println(msg)
       connection.close()
     }(executionContext)
   }
-  //out ! ("fda")
+
 }
 class SenderActor extends Actor{
   def receive ={
     case msg: String =>{
-      if(isAllDigits(msg)){
-        Senders.senders.foreach(x => x ! msg)
-      }
+      Senders.senders.foreach(actorRefs => actorRefs ! msg)
       println(msg)
     }
   }
-  def isAllDigits(x: String) = x forall Character.isDigit
 
-}
-object SenderActorObject{
 
 }

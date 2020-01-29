@@ -13,6 +13,7 @@
 <meta charset="utf-8" />
 <title>WebSocket Test</title>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 <script language="javascript" type="text/javascript">
 
         var wsUri = "ws://" +window.location.hostname+ ":9000/client";
@@ -43,13 +44,15 @@
             websocket.onclose = function(evt) { onClose(evt) };
             websocket.onerror = function(evt) { onError(evt) };
         }
-
+        function doSend(message)
+        {
+            websocket.send(message);
+        }
         function onOpen(evt)
         {
             writeToScreen("CONNECTED");
 
-
-           // doSend("WebSocket rocks");
+            doSend("WebSocket rocks");
             onMessage();
         }
 
@@ -61,10 +64,6 @@
         function onMessage(evt)
         {
             //TODO: make function that updates the plot
-
-            function rand() {
-                return Math.random();
-            }
 
             var time = new Date();
             var update = {
@@ -102,3 +101,5 @@
 <br>
 <br>
 <div id="graph"></div>
+<br>
+<div id="mapid"></div>

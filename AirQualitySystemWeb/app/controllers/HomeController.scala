@@ -1,16 +1,15 @@
 package controllers
 
 import javax.inject._
-import play.api.db._
-import scala.concurrent.Future
+
 import play.api.mvc._
 import play.api.libs.streams.ActorFlow
 import javax.inject.Inject
 import akka.actor.ActorSystem
 import akka.stream.Materializer
-import akka.stream.scaladsl._
-import play.api.libs.concurrent.CustomExecutionContext
-import akka.actor.TypedActor.PostStop
+
+import akka.actor._
+
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -30,7 +29,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit system: ActorS
     }
   }
 }
-import akka.actor._
+
 object Senders{
    var senders: Set[ActorRef] = Set.empty
 }
