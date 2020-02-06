@@ -1,11 +1,14 @@
 #include <ArduinoWebsockets.h>
+#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 
-const char* ssid = "Raxes"; //Enter SSID
-const char* password = "evaluate"; //Enter Password
+const char* ssid = "your network name"; //Enter SSID
+const char* password = "your password"; //Enter Password
 const char* websockets_server = "ws://192.168.1.120:9000/socket"; //server adress and port
 int analogValue = 0;
 const int analogInPin = A0;
+const int capacity = JSON_OBJECT_SIZE(2);
+StaticJsonDocument<capacity> doc;
 using namespace websockets;
 
 void onMessageCallback(WebsocketsMessage message) {
@@ -30,7 +33,7 @@ void setup() {
     Serial.begin(115200);
     // Connect to wifi
     WiFi.begin(ssid, password);
-
+    
     // Wait some time to connect to wifi
     for(int i = 0; i < 10 && WiFi.status() != WL_CONNECTED; i++) {
         Serial.print(".");
@@ -52,8 +55,11 @@ void setup() {
 void loop() {
     client.poll();
     analogValue = analogRead(analogInPin);
+    doc["id"] = 1;
+    doc["value"] = analogValue;
+    
     Serial.print(analogValue);
-    client.send(String(analogRead(0),DEC));
-   
+    client.send(doc.as<String>());
+    
     delay(1000);
 }
