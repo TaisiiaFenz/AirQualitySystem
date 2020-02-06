@@ -1,7 +1,7 @@
 package controllers
 import javax.inject._
 import play.api.db._
-
+import models.SensorData
 import scala.concurrent.Future
 import play.api.mvc._
 import play.api.libs.streams.ActorFlow
@@ -14,10 +14,10 @@ class DatabaseController @Inject()(cc: ControllerComponents, db: Database, execu
 
 
   def socket = WebSocket.accept[String, String] { request =>
-    ActorFlow.actorRef { out => {
-      val actor = system.actorOf(Props[SenderActor])
-      ArduinoDataActor.props(out, executionContext, db, actor)
-    }
+      ActorFlow.actorRef { out => {
+        val actor = system.actorOf(Props[SenderActor])
+        ArduinoDataActor.props(out, executionContext, db, actor)
+      }
     }
   }
 
@@ -32,23 +32,25 @@ object ArduinoDataActor {
 class ArduinoDataActor(out: ActorRef, executionContext: DatabaseExecutionContext, db: Database, actor: ActorRef) extends Actor {
   def receive = {
     case msg:  String => {
-      if(isAllDigits(msg)){
-        actor ! msg
-        updateDatabase(msg.toInt)
-      }
+      println(msg)
+      val data = DecoderController.decodeData(msg)
+      updateDatabase(data)
+      actor ! msg
+
 
     }
   }
 
   def isAllDigits(x: String) = x forall Character.isDigit
-  def updateDatabase(msg: Int): Unit = {
+  def updateDatabase(msg: SensorData): Unit = {
     Future {
       val connection = db.getConnection()
-      val sql: String = "INSERT INTO sensorTable (value)" + "VALUES(?)"
+      val sql: String = "INSERT INTO sensorData (id, value)" + "VALUES(?,?)"
       val preparedStatement = connection.prepareStatement(sql)
-      preparedStatement.setInt(1,msg)
+      preparedStatement.setInt(1, msg.id)
+      preparedStatement.setInt(2, msg.value)
       preparedStatement.executeUpdate()
-      //TODO: delete in some time
+      //TODO: delete in some cases
       println(msg)
       connection.close()
     }(executionContext)
