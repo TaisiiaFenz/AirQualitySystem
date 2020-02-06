@@ -29,3 +29,7 @@ libraryDependencies += "org.webjars" % "flot" % "0.8.3-1"
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.6"
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test
 libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % Test
+
+libraryDependencies += "io.circe" %% "circe-core" % "0.11.1"
+libraryDependencies += "io.circe" %% "circe-generic" % "0.11.1"
+libraryDependencies += "io.circe" %% "circe-parser" % "0.11.1"
