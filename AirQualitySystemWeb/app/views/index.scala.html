@@ -13,7 +13,14 @@
 <meta charset="utf-8" />
 <title>WebSocket Test</title>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
+<meta  name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+        body { margin: 0; padding: 0; }
+        #map { position: static; top: 0; bottom: 0;   margin: 0 auto; width: 70%; height: 75% }
+</style>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script language="javascript" type="text/javascript">
 
@@ -65,15 +72,16 @@
         function onMessage(evt)
         {
             //TODO: make function that updates the plot
+            var data = JSON.parse(evt.data);
 
             var time = new Date();
             var update = {
                 x:  [[time]],
-                y: [[evt.data]]
+                y: [[data.value]]
             }
             Plotly.extendTraces('graph', update, [0])
 
-            writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+            writeToScreen('<span style="color: blue;">RESPONSE: ' + data.value +'</span>');
 
         }
 
@@ -95,6 +103,7 @@
         window.addEventListener("load", init, false);
 
 </script>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Air Quality System</a>
@@ -134,20 +143,47 @@
     <main role = "main">
         <div class = "container-fluid" style="padding-top: 40px">
             <div class = "row">
-            <div class="col-md-3">
-                <div class="card border-dark" style="max-width: 13rem;">
-                    <div class="card-header">Current level of CO2</div>
-                    <div class="card-body text-dark">
-                        <div id = "output">
-                        </div>
+                <div class="col-md-3">
+                    <div class="card border-dark" style="max-width: 13rem;">
+                       <div class="card-header">Current level of CO2</div>
+                        <div class="card-body text-dark">
+                            <div id = "output"></div>
                     </div>
                 </div>
+
             </div>
+
             </div>
+            <div class="row">
+
+                <div id="graph"></div>
+
+
+
+            </div>
+            <div class="row">
+                <div id = "map"></div>
+
+
+
+            </div>
+
         </div>
-        <div id="graph"></div>
+
+
     </main>
-
-
+    <footer class = "container">
+        <p>Air Quality System 2020</p>
+    </footer>
+    <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoibWVkaWsyNTEiLCJhIjoiY2pibTF1aTFiMzdwZDJxcXlqYTlncTV4diJ9.UkgwrgNPxdnl4FFVY1BGtw';
+            var map = new mapboxgl.Map({
+                container: 'map', // container id
+                style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+                center: [-74.5, 40], // starting position [lng, lat]
+                zoom: 9 // starting zoom
+            });
+    </script>
 
 </body>
+
