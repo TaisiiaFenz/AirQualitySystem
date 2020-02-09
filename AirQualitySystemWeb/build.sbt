@@ -33,3 +33,8 @@ libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersio
 libraryDependencies += "io.circe" %% "circe-core" % "0.11.1"
 libraryDependencies += "io.circe" %% "circe-generic" % "0.11.1"
 libraryDependencies += "io.circe" %% "circe-parser" % "0.11.1"
+
+libraryDependencies ++= Seq(
+  "com.typesafe.play" %% "play-slick" % "4.0.0",
+  "com.typesafe.play" %% "play-slick-evolutions" % "4.0.0"
+)
