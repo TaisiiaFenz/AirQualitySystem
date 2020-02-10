@@ -10,13 +10,12 @@ GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
 GET     /message                    controllers.AsyncController.message
 
-GET     /socket                      controllers.DatabaseController.socket
+GET     /socket                      controllers.ArduinoController.socket
 
-
+GET      /data                      controllers.ShowDataController.showData
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /                      controllers.HomeController.index
 
-POST    /postdata                   controllers.PostRequestController.sayHello

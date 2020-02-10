@@ -7,16 +7,16 @@ lazy val `AirQualitySystemWeb` = (project in file(".")).enablePlugins(PlayScala)
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
       
 resolvers += "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/"
-libraryDependencies ++= Seq(
-  javaJdbc
-)
+//libraryDependencies ++= Seq(
+//  javaJdbc
+//)
 libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.46"
 )
       
 scalaVersion := "2.12.2"
 
-libraryDependencies ++= Seq( jdbc , ehcache , ws , specs2 % Test , guice )
+libraryDependencies ++= Seq( ehcache , ws , specs2 % Test , guice )
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
 
@@ -35,6 +35,9 @@ libraryDependencies += "io.circe" %% "circe-generic" % "0.11.1"
 libraryDependencies += "io.circe" %% "circe-parser" % "0.11.1"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-slick" % "4.0.0",
-  "com.typesafe.play" %% "play-slick-evolutions" % "4.0.0"
+  "com.typesafe.play" %% "play-slick" % "5.0.0",
+  "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0"
 )
+
+libraryDependencies += "org.springframework" % "spring-beans" % "5.2.2.RELEASE"
+

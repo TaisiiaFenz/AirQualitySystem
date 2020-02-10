@@ -3,13 +3,14 @@ package models
 import play.api.data.Form
 import play.api.data.Forms.mapping
 import play.api.data.Forms._
-
 import play.api.db.slick.DatabaseConfigProvider
+
 import scala.concurrent.ExecutionContext
 import play.api.db.slick.HasDatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import javax.inject.Inject
+import javax.inject.{Inject, Named}
 import slick.jdbc.MySQLProfile.api._
+
 import scala.concurrent.Future
 
 case class SensorData(id: Int, value: Int)
@@ -33,6 +34,7 @@ object SensorDataForm {
     )(SensorData.apply)(SensorData.unapply)
   )
 }
+@Named
 class SensorsData @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
 
 
