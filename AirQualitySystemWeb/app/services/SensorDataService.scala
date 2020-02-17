@@ -7,7 +7,7 @@ import models.{SensorData, SensorsData}
 
 import scala.concurrent.Future
 
-@Named
+
 class SensorDataService {
 
   @Inject
