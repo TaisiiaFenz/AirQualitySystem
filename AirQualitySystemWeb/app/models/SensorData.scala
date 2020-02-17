@@ -8,20 +8,23 @@ import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.ExecutionContext
 import play.api.db.slick.HasDatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import javax.inject.{Inject, Named}
+import javax.inject.{Inject}
 import slick.jdbc.MySQLProfile.api._
 
 import scala.concurrent.Future
 
-case class SensorData(id: Int, value: Int)
+case class SensorData(id: Int, value: Int, time: String )
 
-class SensorDataTableModel(tag: Tag) extends Table[SensorData](tag, "sensorData") {
+class SensorDataTableModel(tag: Tag) extends Table[SensorData](tag, "SENSORS_DATA") {
+  @Inject
+  var sensors: Sensors = _
 
   def id = column[Int]("id")
   def value = column[Int]("value")
-
+  def time = column[String]("time")
+  def sensorId = foreignKey("fk_sensorId", id, sensors.sensorsData)(_.id)
   override def * =
-    (id, value) <>(SensorData.tupled, SensorData.unapply)
+    (id, value, time) <>(SensorData.tupled, SensorData.unapply)
 }
 
 
@@ -30,11 +33,12 @@ object SensorDataForm {
   val form = Form(
     mapping(
       "id" -> number,
-      "value" -> number
+      "value" -> number,
+      "time" -> text
     )(SensorData.apply)(SensorData.unapply)
   )
 }
-@Named
+
 class SensorsData @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
 
 
