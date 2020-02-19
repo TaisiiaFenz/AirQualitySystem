@@ -18,12 +18,16 @@ case class Sensor(id: Int, ownerId: Int, name: String, longitude: String, latitu
 
 class SensorTableModel(tag: Tag) extends Table[Sensor](tag, "SENSORS") {
 
+  @Inject
+  var users: Users = _
+
   def id = column[Int]("id", O.PrimaryKey)
-  def ownerId = column[Int]("owner")
+  def ownerId = column[Int]("ownerId")
   def name = column[String]("name")
   def longitude = column[String]("longitude")
   def latitude = column[String]("latitude")
-//TODO: add owner foreign key
+
+  def owner = foreignKey("fk_owner", ownerId, users.users)(_.id)
   override def * = (id, ownerId, name, longitude,latitude) <> (Sensor.tupled, Sensor.unapply)
 
 }
@@ -33,7 +37,7 @@ object SensorForm {
   val form = Form(
     mapping(
       "id" -> number,
-      "owner" -> number,
+      "ownerId" -> number,
       "name" -> text,
       "longitude" -> text,
       "latitude"-> text
@@ -45,24 +49,24 @@ class Sensors @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
 
 
 
-  val sensorsData = TableQuery[SensorTableModel]
+  val sensors = TableQuery[SensorTableModel]
 
   def add(sensor: Sensor): Future[String] = {
-    dbConfig.db.run(sensorsData += sensor).map(_ => "Data successfully added").recover {
+    dbConfig.db.run(sensors += sensor).map(_ => "Data successfully added").recover {
       case ex: Exception => ex.getCause.getMessage
     }
   }
 
   def delete(id: Int): Future[Int] = {
-    dbConfig.db.run(sensorsData.filter(_.id === id).delete)
+    dbConfig.db.run(sensors.filter(_.id === id).delete)
   }
 
   def get(id: Int): Future[Option[Sensor]] = {
-    dbConfig.db.run(sensorsData.filter(_.id === id).result.headOption)
+    dbConfig.db.run(sensors.filter(_.id === id).result.headOption)
   }
 
   def listAll: Future[Seq[Sensor]] = {
-    dbConfig.db.run(sensorsData.result)
+    dbConfig.db.run(sensors.result)
   }
 }
 

@@ -8,7 +8,7 @@ import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.ExecutionContext
 import play.api.db.slick.HasDatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import javax.inject.{Inject}
+import javax.inject.Inject
 import slick.jdbc.MySQLProfile.api._
 
 import scala.concurrent.Future
@@ -19,12 +19,12 @@ class SensorDataTableModel(tag: Tag) extends Table[SensorData](tag, "SENSORS_DAT
   @Inject
   var sensors: Sensors = _
 
-  def id = column[Int]("id")
-  def value = column[Int]("value")
+  def id = column[Int]("sensorId")
+  def data = column[Int]("data")
   def time = column[String]("time")
-  def sensorId = foreignKey("fk_sensorId", id, sensors.sensorsData)(_.id)
+  def sensorId = foreignKey("fk_sensorId", id, sensors.sensors)(_.id)
   override def * =
-    (id, value, time) <>(SensorData.tupled, SensorData.unapply)
+    (id, data, time) <>(SensorData.tupled, SensorData.unapply)
 }
 
 
@@ -32,8 +32,8 @@ object SensorDataForm {
 
   val form = Form(
     mapping(
-      "id" -> number,
-      "value" -> number,
+      "sensorId" -> number,
+      "data" -> number,
       "time" -> text
     )(SensorData.apply)(SensorData.unapply)
   )
