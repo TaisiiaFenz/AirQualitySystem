@@ -25,11 +25,11 @@ class DatabaseTest extends FunSuite {
         assert(user1.websocketIn === resultStr.get.webSocketIn)
 
     }
-    test("Database insertion data in  table"){
-        val resultStr = Await.result(UserService.getUser("Alah"), Duration.Inf)
-        resultStr
-    }
-
+//    test("Database insertion data in  table"){
+//        val resultStr = Await.result(UserService.getUser("Alah"), Duration.Inf)
+//
+//    }
+//
 
 
 
