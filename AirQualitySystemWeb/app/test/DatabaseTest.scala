@@ -16,13 +16,13 @@ class DatabaseTest extends FunSuite {
 
     test("Database insertion data in Users table") {
       //email: String, password: String, fullName: String, status: String
-        val user1 = new User(1, "grmad@gmail.com", "qwe", "Alah", "admin", "akbar")
+        val user1 = new User( None,"grmad@gmail.com", "qwe", "Alah", "admin", "akbar")
 
        // Await.result(UserService.addUser(user1), Duration.Inf)
 
         val resultStr = Await.result(UserService.getUser("Alah"), Duration.Inf)
         assert(user1.fullName === resultStr.get.fullName)
-        assert(user1.websocketIn === resultStr.get.webSocketIn)
+        assert(user1.websocketIn === resultStr.get.websocketIn)
 
     }
 //    test("Database insertion data in  table"){
