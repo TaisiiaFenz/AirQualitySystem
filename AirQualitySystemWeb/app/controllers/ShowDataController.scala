@@ -8,9 +8,10 @@ import services.SensorDataService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class ShowDataController @Inject()(executionContext: DatabaseExecutionContext, cc: ControllerComponents, sensorDataService: SensorDataService ) extends AbstractController(cc) with Logging{
+class ShowDataController @Inject()(executionContext: DatabaseExecutionContext, cc: ControllerComponents) extends AbstractController(cc) with Logging{
   def showData = Action.async { implicit request: Request[AnyContent] =>
-    sensorDataService.listAllData map { data =>
+    SensorDataService.listAllData
+    SensorDataService.listAllData map { data =>
       Ok(views.html.data(SensorDataForm.form, data))
     }
 

@@ -1,16 +1,20 @@
 package services
 
+import java.text.SimpleDateFormat
+
 import io.circe.{Decoder, HCursor, parser}
 import models.SensorData
+import java.util.Calendar
 
 object DataDecoder {
     implicit val decodeFoo: Decoder[SensorData] = new Decoder[SensorData] {
       final def apply(c: HCursor): Decoder.Result[SensorData] =
         for {
           id <- c.downField("id").as[Int]
-          value <- c.downField("value").as[Int]
+          data <- c.downField("data").as[Int]
+
         } yield {
-          new SensorData(id, value)
+          new SensorData(id, data, new SimpleDateFormat("dd.mm.yyyy").toString)
         }
 
     }

@@ -19,7 +19,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit system: ActorS
 
 
   def index = Action {
-    Ok(views.html.index(""))
+    Ok(views.html.index())
   }
   def socket = WebSocket.accept[String, String] { request =>
     ActorFlow.actorRef { out =>

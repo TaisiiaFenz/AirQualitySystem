@@ -24,7 +24,7 @@ unmanagedResourceDirectories in Test +=  baseDirectory.value / "app/test"
 libraryDependencies += guice
 //libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % Test
 fork := true // required for "sbt run" to pick up javaOptions
-val akkaVersion = "2.5.25"
+val akkaVersion = "2.6.1"
 libraryDependencies += ws
 libraryDependencies += "org.webjars" % "flot" % "0.8.3-1"
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.6"
@@ -42,6 +42,6 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "org.springframework" % "spring-beans" % "5.2.2.RELEASE"
 
-libraryDependencies ++= Seq(
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.0.0" % "test"
-)
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8"
+

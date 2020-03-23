@@ -2,17 +2,17 @@ package services
 
 
 //
-import javax.inject.{Named, Singleton, Inject}
-import models.{SensorData, SensorsData}
-
+import javax.inject.{Inject, Named, Singleton}
+import models.{SensorData, Sensors, SensorsData}
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.Future
+import ExecutionContext.Implicits.global
 
+object SensorDataService {
 
-class SensorDataService {
-
-  @Inject
-  var sensorsData: SensorsData = _
-
+//  @Inject
+//  var sensorsData: SensorsData = _
+  val sensorsData = new SensorsData(DbCondigProvider.dbConfProvider)
   def addData(data: SensorData): Future[String] = {
     sensorsData.add(data)
   }

@@ -8,25 +8,30 @@ import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.ExecutionContext
 import play.api.db.slick.HasDatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import javax.inject.{Inject}
+import javax.inject.{Inject, Singleton}
 import slick.jdbc.MySQLProfile.api._
 
 import scala.concurrent.Future
 
 
 //TODO: In future change type String on type enum in field status if it is possible
-case class User (id: Int, email: String, password: String, fullName: String, status: String)
+case class User (id: Option[Int] = None, email: String, password: String, fullName: String, status: String, userName: String){
+    val websocketIn: String = s"ws://localhost:9000/${userName}in"
+    val webSocketOut: String = s"ws://localhost:9000/${userName}out"
+}
 
 class UserTableModel(tag: Tag) extends Table[User](tag, "USERS") {
 
 
-  def id = column[Int]("id")
+  def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def email = column[String]("email")
   def password = column[String]("password")
   def status = column[String]("status")
   def fullName = column[String]("fullName")
+  def userName = column[String]("userName")
+
   override def * =
-    (id, email, password, fullName, status) <>(User.tupled, User.unapply)
+    (id.?, email, password, fullName, status, userName) <>(User.tupled, User.unapply)
 }
 
 
@@ -34,18 +39,18 @@ object UserForm {
 
   val form = Form(
     mapping(
-      "id" -> number,
+      "id" -> optional(number),
       "email" -> text,
       "password" -> text,
-      "status" -> text,
       "fullName" -> text,
+      "status" -> text,
+      "userName" -> text
+
     )(User.apply)(User.unapply)
   )
 }
-
+@Singleton
 class Users @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
-
-
 
   val users = TableQuery[UserTableModel]
 
