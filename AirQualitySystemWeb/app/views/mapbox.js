@@ -4,6 +4,12 @@ let map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v9',
     zoom: 11,
+    pitchWithRotate: false, //"drag to rotate" interaction is disabled
+    clickTolerance: 4, //Максимальное количество пикселей, которое пользователь может сместить указатель мыши во время клика, чтобы он считался действительным кликом
+    logoPosition: 'bottom-right',
+    fadeDuration: 500, //плавность появления
+    
+    //preserveDrawingBuffer: true, //the map's canvas can be exported to a PNG using map.getCanvas().toDataURL()
     center: [30.524808, 50.448624]
 });
 
