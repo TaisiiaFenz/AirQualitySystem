@@ -48,7 +48,11 @@ map.on('load', function() {
                 'source': 'point',
                 'layout': {
                     'icon-image': 'cat',
-                    'icon-size': 0.25
+                    'icon-size': 0.4,
+                    'icon-rotate': 10
+                },
+                'paint': {
+                    'icon-opacity': 0.5
                 }
             });
         }
@@ -65,8 +69,25 @@ map.on('load', function() {
             "text-field": "{title}",
             "text-font": ["Open Sans Semibold",
                 "Arial Unicode MS Bold"],
+            "icon-size": 1.5
             //  "text-offset": [0, 0.6],
             //  "text-anchor": "top"
+        },
+        "paint": {
+            "icon-opacity": 0.9,
+            "icon-color": "green",
+            "text-color": "white"
+        }
+    });
+    map.addLayer({
+        'id': 'back',
+        'type': 'background',
+        'source': {
+            'type': 'geojson',
+            'data': 'point'
+        },
+        'paint': {
+            'background-color': 'rgba(0,128,128,0.1)'
         }
     });
 });
