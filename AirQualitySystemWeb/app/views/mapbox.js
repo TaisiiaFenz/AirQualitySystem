@@ -103,8 +103,17 @@ let el = document.createElement('div');
 el.id = 'marker';
 
 // create the marker
-new mapboxgl.Marker(el)
+let marker = new mapboxgl.Marker({
+    element: el,
+    draggable: true
+})
     .setLngLat(monument)
     .setPopup(popup) // sets a popup on this marker
     .addTo(map);
 
+function onDragEnd() {
+    var lngLat = marker.getLngLat();
+    popup.setHTML('Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat);
+}
+
+marker.on('dragend', onDragEnd);
