@@ -98,7 +98,9 @@ let arrMarker = [];
 map.on('click', function(e) {
 
     if (arrMarker.length != 0) {
-        arrMarker[arrMarker.length - 1].id = 'marker';
+        console.log(arrMarker[0]);
+        arrMarker[arrMarker.length - 1]._element.style.width = "50px";
+        arrMarker[arrMarker.length - 1]._element.style.height = "50px";
     }
     let popup = new mapboxgl.Popup({ offset: 25 }).setText('Longitude: ' + e.lngLat.lng + '<br />Latitude: ' + e.lngLat.lat);
 
