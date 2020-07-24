@@ -94,13 +94,35 @@ map.on('load', function() {
     });
 });
 
+let arrMarker = [];
+map.on('click', function(e) {
+
+    if (arrMarker.length != 0) {
+        arrMarker[arrMarker.length - 1].id = 'marker';
+    }
+    let popup = new mapboxgl.Popup({ offset: 25 }).setText('Longitude: ' + e.lngLat.lng + '<br />Latitude: ' + e.lngLat.lat);
+
+    let elem = document.createElement('div');
+    elem.id = 'markerStart';
+
+    let marker = new mapboxgl.Marker({
+        element: elem
+    })
+        .setLngLat(e.lngLat)
+        .setPopup(popup) // sets a popup on this marker
+        .addTo(map);
+
+    arrMarker.push(marker);
+    console.log('A click event has occurred at ' + e.lngLat);
+});
+
+
 let popup = new mapboxgl.Popup({ offset: 25 }).setText(
     'Construction on the Washington Monument began in 1848.'
 );
-
 // create DOM element for the marker
 let el = document.createElement('div');
-el.id = 'marker';
+el.id = 'markerStart';
 
 // create the marker
 let marker = new mapboxgl.Marker({
