@@ -16,47 +16,60 @@ let map = new mapboxgl.Map({
     center: [30.524808, 50.448624]
 });
 
+let monument = [30.471391, 50.383328];
+
 let nav = new mapboxgl.NavigationControl({
     showZoom: true
 });
 map.addControl(nav, 'bottom-right');
 
 map.on('load', function() {
-    map.loadImage(
-        'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png',
-        function(error, image) {
-            if (error) throw error;
-            map.addImage('cat', image);
-            map.addSource('point', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': [
-                        {
-                            'type': 'Feature',
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': [30.524808, 50.448624]
-                            }
-                        }
-                    ]
-                }
-            });
-            map.addLayer({
-                'id': 'cat',
-                'type': 'symbol',
-                'source': 'point',
-                'layout': {
-                    'icon-image': 'cat',
-                    'icon-size': 0.4,
-                    'icon-rotate': 10
-                },
-                'paint': {
-                    'icon-opacity': 0.5
-                }
-            });
+    map.addLayer({
+        'id': 'back',
+        'type': 'background',
+        'source': {
+            'type': 'geojson',
+            'data': 'point'
+        },
+        'paint': {
+            'background-color': 'rgba(0,128,128,0.1)'
         }
-    );
+    });
+    // map.loadImage(
+    //     'https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png',
+    //     function(error, image) {
+    //         if (error) throw error;
+    //         map.addImage('cat', image);
+    //         map.addSource('point', {
+    //             'type': 'geojson',
+    //             'data': {
+    //                 'type': 'FeatureCollection',
+    //                 'features': [
+    //                     {
+    //                         'type': 'Feature',
+    //                         'geometry': {
+    //                             'type': 'Point',
+    //                             'coordinates': [30.524808, 50.448624]
+    //                         }
+    //                     }
+    //                 ]
+    //             }
+    //         });
+    //         map.addLayer({
+    //             'id': 'cat',
+    //             'type': 'symbol',
+    //             'source': 'point',
+    //             'layout': {
+    //                 'icon-image': 'cat',
+    //                 'icon-size': 0.4,
+    //                 'icon-rotate': 10
+    //             },
+    //             'paint': {
+    //                 'icon-opacity': 0.5
+    //             }
+    //         });
+    //     }
+    // );
     map.addLayer({
         "id": "points",
         "type": "symbol",
@@ -79,16 +92,19 @@ map.on('load', function() {
             "text-color": "white"
         }
     });
-    map.addLayer({
-        'id': 'back',
-        'type': 'background',
-        'source': {
-            'type': 'geojson',
-            'data': 'point'
-        },
-        'paint': {
-            'background-color': 'rgba(0,128,128,0.1)'
-        }
-    });
 });
+
+let popup = new mapboxgl.Popup({ offset: 25 }).setText(
+    'Construction on the Washington Monument began in 1848.'
+);
+
+// create DOM element for the marker
+let el = document.createElement('div');
+el.id = 'marker';
+
+// create the marker
+new mapboxgl.Marker(el)
+    .setLngLat(monument)
+    .setPopup(popup) // sets a popup on this marker
+    .addTo(map);
 
