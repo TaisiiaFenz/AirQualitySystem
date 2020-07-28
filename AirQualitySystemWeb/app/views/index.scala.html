@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <meta charset="utf-8" />
-<title>WebSocket Test</title>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<title>AirQS</title>
+<!--<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
+<script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <meta  name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <!-- <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
@@ -36,87 +36,6 @@
         }
 </style>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script language="javascript" type="text/javascript">
-
-        var wsUri = "ws://" +window.location.hostname+ ":9000/client";
-        var output;
-
-        function init()
-        {
-            var time = new Date();
-
-            var data = [{
-                x: [time],
-                y: [0],
-                mode: 'lines',
-                line: {color: '#80CAF6'}
-            }]
-
-            Plotly.newPlot('graph', data);
-            output = document.getElementById("output");
-            testWebSocket();
-        }
-
-        function testWebSocket()
-        {
-            websocket = new WebSocket(wsUri);
-            websocket.onopen = function(evt) { onOpen(evt) };
-
-            websocket.onmessage = function(evt) { onMessage(evt) };
-            websocket.onclose = function(evt) { onClose(evt) };
-            websocket.onerror = function(evt) { onError(evt) };
-        }
-        function doSend(message)
-        {
-            websocket.send(message);
-        }
-        function onOpen(evt)
-        {
-            writeToScreen("CONNECTED");
-
-            doSend("WebSocket rocks");
-            onMessage();
-        }
-
-        function onClose(evt)
-        {
-            writeToScreen("DISCONNECTED");
-        }
-
-        function onMessage(evt)
-        {
-            //TODO: make function that updates the plot
-            var data = JSON.parse(evt.data);
-
-            var time = new Date();
-            var update = {
-                x:  [[time]],
-                y: [[data.value]]
-            }
-            Plotly.extendTraces('graph', update, [0])
-
-            writeToScreen('<span style="color: blue;">RESPONSE: ' + data.value +'</span>');
-
-        }
-
-        function onError(evt)
-        {
-            writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
-        }
-
-
-
-        function writeToScreen(message)
-        {
-           // var pre = document.update();
-            document.getElementById("output").innerHTML = message;
-
-            //output.appendChild(pre);
-        }
-
-        window.addEventListener("load", init, false);
-
-</script>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -170,20 +89,16 @@
             </div>
         </div>
 
-        <div class = "container-fluid">
-
-
-                <div id="graph"></div>
-
-
-
-        </div>
-
             <div class = "container-fluid" style="position: relative; width: 1100px; height: 700px;">
                 <div id = "map"></div>
             </div>
 
-
+        <div class = "container-fluid">
+            <div id="graph"></div>
+        </div>
+        <div class = "container-fluid" style="position: relative; width: 800px; height: 600px;">
+            <div id="chart"></div>
+        </div>
 
 
 
@@ -191,6 +106,8 @@
     <footer class = "container">
         <p>Air Quality System 2020</p>
     </footer>
+    <script src="index.js"></script>
+    <script src="plot.js"></script>
     <script src="mapbox.js"></script>
     <script src="token.js"></script>
     <!-- <script>
