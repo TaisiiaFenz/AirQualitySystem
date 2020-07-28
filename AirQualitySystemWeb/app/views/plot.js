@@ -8,7 +8,7 @@ let trace = {
     mode: 'lines',
     name: 'Red',
     line: {
-        color: 'rgb(55, 128, 191)',
+        color: 'rgb(29, 172, 191)',
         width: 3
     }
 };

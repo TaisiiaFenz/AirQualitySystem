@@ -32,7 +32,7 @@ map.on('load', function() {
             'data': 'point'
         },
         'paint': {
-            'background-color': 'rgba(0,128,128,0.1)'
+            'background-color': 'rgba(29,172,191,0.1)'
         }
     });
     // map.loadImage(
@@ -71,12 +71,12 @@ map.on('load', function() {
     //     }
     // );
     map.addLayer({
-        "id": "points",
-        "type": "symbol",
-        "source": {
-            "type": "geojson",
-            "data": points
-        },
+        // "id": "points",
+        // "type": "symbol",
+        // "source": {
+        //     "type": "geojson",
+        //     "data": points
+        // },
         "layout": {
             "icon-image": "{icon}-15",
             "text-field": "{title}",
@@ -99,6 +99,7 @@ map.on('click', function(e) {
 
     if (arrMarker.length != 0) {
         console.log(arrMarker[0]);
+        arrMarker[arrMarker.length - 1]._element.style.backgroundImage = "url('img/pin-1.svg')";
         arrMarker[arrMarker.length - 1]._element.style.width = "50px";
         arrMarker[arrMarker.length - 1]._element.style.height = "50px";
     }
@@ -117,27 +118,3 @@ map.on('click', function(e) {
     arrMarker.push(marker);
     console.log('A click event has occurred at ' + e.lngLat);
 });
-
-
-let popup = new mapboxgl.Popup({ offset: 25 }).setText(
-    'Construction on the Washington Monument began in 1848.'
-);
-// create DOM element for the marker
-let el = document.createElement('div');
-el.id = 'markerStart';
-
-// create the marker
-let marker = new mapboxgl.Marker({
-    element: el,
-    draggable: true
-})
-    .setLngLat(monument)
-    .setPopup(popup) // sets a popup on this marker
-    .addTo(map);
-
-function onDragEnd() {
-    var lngLat = marker.getLngLat();
-    popup.setHTML('Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat);
-}
-
-marker.on('dragend', onDragEnd);

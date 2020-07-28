@@ -1,110 +1,114 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
 <title>AirQS</title>
-<!--<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
+
+<link href="https://fonts.googleapis.com/
+    css2?family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="css/owl.theme.default.min.css">
+<link rel="stylesheet" href="css/main.css">
+
 <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<meta  name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<!-- <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" /> -->
-<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js"></script>
-<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css" rel="stylesheet"/>
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel="stylesheet" />
-<style>
-        body { margin: 0; padding: 0; }
-        #map { position: static; top: 0; bottom: 0;width: 100%; height: 100%;   margin: 0 auto; }
-        #marker {
-            background-size: cover;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
 
-        #markerStart {
-            background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
-            background-size: cover;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+<meta  name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-        .mapboxgl-popup {
-            max-width: 200px;
-        }
-</style>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+-->
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Air Quality System</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-    <main role = "main">
-        <div class = "container-fluid" style="padding-top: 40px">
-            <div class = "row">
+<header class="header">
+    <div class="nav">
+        <div class="container">
+            <div class="row">
                 <div class="col-md-3">
-                    <div class="card border-dark" style="max-width: 13rem;">
+                    <img src="img/air.svg" alt="logo" class="logo">
+                </div>
+                <div class="col-md-6">
+                    <div class="menu">
+                        <button class="btn btn-link">Home</button>
+                        <button class="btn btn-link">Link</button>
+                        <button class="btn btn-link">Dropdown</button>
+                        <button class="btn btn-link">Disabled</button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button class="search ml-auto">
+                        <img src="img/search.svg" alt="search">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="offer-cont">
+                        <h1 class="offer-cont__title">
+                            Air Quality System<span class="offer-cont__dot">.</span>
+                        </h1>
+                        <p class="offer-cont__text">
+                            Тут будет краткое описание сайта и зачем он нужен
+                            lorem ipsum dolor sit amet
+                        </p>
+                        <button class="offer-cont__btn">
+                            get started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="maps">
+    <div class="container">
+        <div class="row">
+            <div class="main-map container-fluid">
+                <div id = "map"></div>
+            </div>
+        </div>
+    </div>
+</section>
+    <section class = "info">
+        <div class = "container container-fluid">
+            <div class = "row">
+                <div class="col-md-3 info-card">
+                    <div class="card">
                        <div class="card-header">Current level of CO2</div>
-                        <div class="card-body text-dark">
+                        <div class="card-body">
                             <div id = "output"></div>
                     </div>
                 </div>
-
             </div>
-
+<!--                <div class="col-md-6">-->
+                <div class = "container-fluid" style="position: relative; width: 800px; height: 600px;">
+                    <div id="chart"></div>
+                </div>
             </div>
         </div>
+<!--        <div class = "container-fluid">-->
+<!--            <div id="graph"></div>-->
+<!--        </div>-->
 
-            <div class = "container-fluid" style="position: relative; width: 1100px; height: 700px;">
-                <div id = "map"></div>
+
+
+    </section>
+    <footer class = "footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="float-md-right">
+                        <img class="logo" src="img/air.svg" alt="logo">
+                        <p class="txt-air">Air Quality System</p>
+                        <p class="txt-footer">All rights reserved 2020</p>
+                    </div>
+                </div>
             </div>
-
-        <div class = "container-fluid">
-            <div id="graph"></div>
         </div>
-        <div class = "container-fluid" style="position: relative; width: 800px; height: 600px;">
-            <div id="chart"></div>
-        </div>
-
-
-
-    </main>
-    <footer class = "container">
-        <p>Air Quality System 2020</p>
     </footer>
     <script src="index.js"></script>
     <script src="plot.js"></script>
